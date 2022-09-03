@@ -21,7 +21,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/", func(c echo.Context) error {
-		return c.HTML(http.StatusOK, "Hello Serverless!")
+		return c.HTML(http.StatusOK, "Hello Serverless Test!")
 	})
 
 	e.GET("/ping", func(c echo.Context) error {
