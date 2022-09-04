@@ -12,7 +12,16 @@ import (
 )
 
 func main() {
+	httpPort := os.Getenv("HTTP_PORT")
+	if httpPort == "" {
+		httpPort = "8080"
+	}
+
+	filePath := os.Getenv("FILE_PATH")
+
 	fmt.Println("Hello! This is a sample application to test serverless")
+	fmt.Println("Working on", httpPort)
+	fmt.Println("File path is", filePath)
 
 	var sleepTime int = 0
 
@@ -32,25 +41,33 @@ func main() {
 		}{Status: "OK", SleepTime: sleepTime})
 	})
 
+	e.GET("/read", func(c echo.Context) error {
+		dat, err := os.ReadFile(filePath)
+		if err != nil {
+			return c.JSON(http.StatusOK, struct {
+				Status  string
+				Content string
+			}{Status: err.Error(), Content: ""})
+		} else {
+			return c.JSON(http.StatusOK, struct {
+				Status  string
+				Content string
+			}{Status: "OK", Content: string(dat)})
+		}
+	})
+
 	e.POST("/sleep", func(c echo.Context) error {
 		newSleepTime, err := strconv.Atoi(c.FormValue("time"))
 		if err != nil {
 			return c.JSON(http.StatusOK, struct {
-				Status  string
-				Success string
-			}{Status: "OK", Success: "False"})
+				Status string
+			}{Status: err.Error()})
 		}
 		sleepTime = newSleepTime
 		return c.JSON(http.StatusOK, struct {
-			Status  string
-			Success string
-		}{Status: "OK", Success: "True"})
+			Status string
+		}{Status: "OK"})
 	})
-
-	httpPort := os.Getenv("HTTP_PORT")
-	if httpPort == "" {
-		httpPort = "8080"
-	}
 
 	e.Logger.Fatal(e.Start(":" + httpPort))
 }
