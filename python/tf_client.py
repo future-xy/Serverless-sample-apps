@@ -11,7 +11,12 @@ tokenizer = BertTokenizer.from_pretrained('bert-large-uncased')
 # Tokenize the sentence
 inputs = tokenizer(sentence)
 
-r = requests.post("http://localhost:8501/v1/models/bert_large_model:predict", data=json.dumps({"instances": [dict(inputs)]}))
+# save the inputs as a json file
+with open('bert_inputs.json', 'w') as f:
+   json.dump({"instances": [dict(inputs)]}, f)
+
+r = requests.post("http://localhost:8501/v1/models/bert_large_model:predict",
+                  data=json.dumps({"instances": [dict(inputs)]}))
 
 result = json.loads(r.text)["predictions"][0]
 
