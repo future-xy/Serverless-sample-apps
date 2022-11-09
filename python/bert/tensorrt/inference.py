@@ -12,8 +12,7 @@ print(trt.__version__)
 
 TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
 
-MODEL_PATH = "bert-pt-onnx/model.onnx"
-ENGINE_PATH = "bert-pt-onnx/model.trt"
+ENGINE_PATH = "bert-pt-onnx/model_int32.trt"
 
 # [101, 8065, 2493, 2024, 2025, 2204, 2012, 2725, 103, 1012, 102]
 input_ids = np.array([[101, 8065, 2493, 2024, 2025, 2204, 2012, 2725, 103, 1012, 102]])

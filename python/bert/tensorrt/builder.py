@@ -7,8 +7,8 @@ print(trt.__version__)
 
 TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
 
-MODEL_PATH = "bert-pt-onnx/model.onnx"
-ENGINE_PATH = "bert-pt-onnx/model.trt"
+MODEL_PATH = "bert-pt-onnx/model_int32.onnx"
+ENGINE_PATH = "bert-pt-onnx/model_int32.trt"
 
 # Load the ONNX model
 EXPLICIT_BATCH = 1 << (int)(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)
