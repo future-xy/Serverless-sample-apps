@@ -8,7 +8,7 @@ import argparse
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str, default="opt-125m")   # default is the smallest model
+    parser.add_argument("--model-name", type=str, default="opt-125m")   # default is the smallest model
     args = parser.parse_args()
     return args
 
@@ -21,7 +21,7 @@ model = AutoModelForCausalLM.from_pretrained(f"facebook/{model_name}", device_ma
 model.eval()
 tokenizer = AutoTokenizer.from_pretrained(f"facebook/{model_name}")
 
-prompt = "Whatever you want "
+prompt = "Whatever you want is"
 inputs = tokenizer(prompt, return_tensors="pt")
 output = model.generate(**inputs)
 print(tokenizer.decode(output[0]))
