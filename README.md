@@ -41,3 +41,27 @@ CUDA_VISIBLE_DEVICES=0,1 python python/opt/download.py --model-name opt-13b &
 CUDA_VISIBLE_DEVICES=2,3 python python/opt/download.py --model-name opt-13b &
 ```
 <img width="322" alt="image" src="https://user-images.githubusercontent.com/31511840/216121121-17b480d9-9bf2-4667-aac5-985b08002668.png">
+
+
+## CPP Model Test
+This part shows how to do model inference with C++. Make sure you have finished the above steps.
+
+### Prerequests
+1. Download and install PyTorch C++ library according to [this](https://pytorch.org/cppdocs/installing.html). Please make sure you can successfully run the example.
+2. Transform the model to TorchScript. The following line will transform the model to TorchScript and save it to `python/opt/[model_name].pt`.
+```bash
+cd python/opt
+CUDA_VISIBLE_DEVICES=0 python download_and_trace.py --model-name opt-1.3b
+```
+
+### Build and run
+```bash
+mkdir build
+cd build
+cmake ..
+cmake --build . -j $(nproc)
+./inference ../opt-1.3b.pt
+```
+
+### TODO
+Please compare the results with the Python version.
